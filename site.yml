@@ -25,7 +25,7 @@
   roles:
     - role: logging
       tags: ['common', 'logging']
-      when: logging.enabled|default('True')|bool
+      when: logging.enabled|default('True')|bool and ansible_architecture != "ppc64le"
   environment: "{{ env_vars|default({}) }}"
 
 - name: setup IPv6 router advertisements
@@ -79,9 +79,10 @@
   roles:
     - role: percona-common
       tags: ['infra', 'percona']
-
+      when: ansible_architecture != "ppc64le"
     - role: percona-arbiter
       tags: ['infra', 'percona']
+      when: ansible_architecture != "ppc64le" 
   environment: "{{ env_vars|default({}) }}"
 
 - name: configure percona backups on primary

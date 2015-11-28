@@ -10,10 +10,13 @@ dependencies:
       - repo: 'deb {{ apt_repos.sensu.repo }} sensu main'
         key_url: '{{ apt_repos.sensu.key_url }}'
         validate_certs: no
+    when: ansible_architecture != "ppc64le"
   - role: docker
     when: docker.enabled is defined and docker.enabled|bool
+    when: ansible_architecture != "ppc64le"
   - role: monitoring-common
     when: monitoring.enabled is not defined or monitoring.enabled|bool
   - role: logging-config
     service: common
     logdata: "{{ common.logs }}"
+    when: ansible_architecture != "ppc64le"

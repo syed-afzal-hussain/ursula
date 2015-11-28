@@ -51,3 +51,4 @@
 
 - name: start and enable logstash-forwarder service
   service: name=logstash-forwarder state=started enabled=yes
+  when: ansible_architecture != "ppc64le"

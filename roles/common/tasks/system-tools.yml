@@ -19,7 +19,6 @@
     - ltrace
     - mtr
     - netcat
-    - pstack
     - pv
     - ruby1.9.1
     - ruby1.9.1-dev
@@ -34,6 +33,12 @@
     - vlan
     - lvm2
     - libpam-cracklib    
+
+- name: install specific system tools
+  apt: pkg={{ item }}
+  with_items:
+    - pstack
+  when: ansible_architecture != "ppc64le"
 
 - name: load vlan module
   lineinfile: dest=/etc/modules

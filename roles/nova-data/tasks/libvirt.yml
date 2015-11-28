@@ -20,7 +20,7 @@
   notify: restart nova services
   when: ansible_distribution_version == "12.04"
 
-- name: install nova-compute packages (trusty)
+- name: install nova-compute packages (trusty and vivid)
   apt: pkg={{ item }}
   with_items:
     - libvirt-bin
@@ -32,7 +32,7 @@
     - genisoimage
     - util-linux
   notify: restart nova services
-  when: ansible_distribution_version == "14.04"
+  when: ansible_distribution_version == "14.04" or ansible_distribution_version == "15.04"
 
 # We want to be sure that libvirt python
 # modules are built against the libvirt running on the host, so build

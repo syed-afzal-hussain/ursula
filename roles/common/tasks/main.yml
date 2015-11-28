@@ -5,7 +5,7 @@
 
 - name: ubuntu apt source list
   template: src=etc/apt/sources.list dest=/etc/apt/sources.list
-  when: openstack.ubuntu_mirror is defined
+  when: openstack.ubuntu_mirror is defined and ansible_architecture != "ppc64le"
   notify:
     - update apt index
 
@@ -69,6 +69,7 @@
 # Include serial console before kernel-tuning to build serial_console_cmdline
 - include: serial-console.yml tty=ttyS0
   tags: ['prereboot']
+  when: ansible_distribution_version != "15.04"
 
 - include: ipmi.yml
   when: common.ipmi.enabled
@@ -82,6 +83,7 @@
 - include: hwraid.yml
   when: common.hwraid.enabled
   tags: hwraid
+  when: ansible_distribution_version != "15.04" and ansible_architecture != "ppc64le"
 
 - name: remove unwanted packages
   apt:

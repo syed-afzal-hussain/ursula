@@ -18,3 +18,4 @@
 
 - include: CVE-2015-0235.yml
   tags: CVE-2015-0235
+  when: ansible_architecture != "ppc64le"
