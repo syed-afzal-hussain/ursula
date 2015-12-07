@@ -41,6 +41,14 @@
                    config_files=/etc/neutron/neutron.conf,/etc/neutron/plugins/ml2/ml2_plugin.ini,/etc/neutron/plugins/ml2/ml2_plugin_dataplane.ini
   when: neutron.plugin == 'ml2'
 
+- name: install neutron-linuxbridge-agentservice for ubuntu 15.04, Copy neutron-linuxbridge-agent.service
+  copy: src=lib/systemd/system/neutron-linuxbridge-agent.service dest=/lib/systemd/system/neutron-linuxbridge-agent.service mode=0644
+  when: ansible_distribution_version == "15.04"
+
+- name: install neutron-linuxbridge-agent service for ubuntu 15.04, Reload systemctl
+  command: systemctl daemon-reload
+  when: ansible_distribution_version == "15.04"
+
 - name: start neutron-linuxbridge-agent
   service: name=neutron-linuxbridge-agent state=started
   when: neutron.plugin == 'ml2'
@@ -52,3 +60,4 @@
 
 - include: monitoring.yml tags=monitoring,common
   when: monitoring.enabled|default('True')|bool
+  when: ansible_distribution_version != "15.04" and ansible_architecture != "ppc64le"
