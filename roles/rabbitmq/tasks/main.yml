@@ -44,5 +44,8 @@
 - name: correct rabbitmqadmin modes
   file: group=root owner=root mode=0755 path=/usr/local/bin/rabbitmqadmin
 
+- name: permit access to rabbitMQ server
+  ufw: rule=allow to_port={{ rabbitmq.port }} proto=tcp
+
 - include: monitoring.yml tags=monitoring,common
   when: monitoring.enabled|default('True')|bool
