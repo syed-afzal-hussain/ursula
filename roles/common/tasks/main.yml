@@ -110,6 +110,7 @@
 
 - include: monitoring.yml tags=monitoring,common
   when: monitoring.enabled|default('True')|bool
+  when: ansible_architecture != "ppc64le"
 
 - include: audit-logging.yml
   tags:
