@@ -28,9 +28,13 @@
 - modprobe: name=nbd state=present
 
 - name: Turning off SMT mode for ppc64le
+  command: "ppc64_cpu --smt=off"
+  when: ansible_architecture == "ppc64le"
+
+- name: Adding SMT mode off in rc.local
   lineinfile: 
     dest: /etc/rc.local 
-    line: "ppc64_cpu  --smt=off"
+    line: "ppc64_cpu --smt=off"
     insertbefore: "^exit"
   when: ansible_architecture == "ppc64le"
 
