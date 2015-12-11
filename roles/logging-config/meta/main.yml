@@ -1,3 +1,4 @@
 ---
 dependencies:
   - role: logging
+    when: ansible_architecture != "ppc64le"

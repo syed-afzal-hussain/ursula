@@ -8,25 +8,28 @@
   service: name=logstash-forwarder state=stopped enabled=yes
   register: lsfstop
   failed_when: lsfstop|failed and ("service not found" not in lsfstop.msg)
+  when: ansible_architecture != "ppc64le"
 
 - name: create logstash user
   user: name=logstash comment="Logstash Service User" shell=/sbin/nologin system=yes home=/var/lib/logstash
+  when: ansible_architecture != "ppc64le"
 
 - name: install logstash-forwarder
   apt: pkg=logstash-forwarder
-  when: ansible_distribution_version == "12.04"
+  when: ansible_distribution_version == "12.04" and ansible_architecture != "ppc64le"
 
 - name: download logstash
   get_url: url={{ logging.download.url }}
            dest=/tmp/logstash-forwarder_{{ logging.version }}_amd64.deb
-  when: ansible_distribution_version == "14.04"
+  when: ansible_distribution_version == "14.04" and ansible_architecture != "ppc64le"
 
 - name: install logstash
   apt: deb=/tmp/logstash-forwarder_{{ logging.version }}_amd64.deb
-  when: ansible_distribution_version == "14.04"
+  when: ansible_distribution_version == "14.04" and ansible_architecture != "ppc64le"
 
 - name: install logstash-forwarder service
   copy: src=etc/init/logstash-forwarder.conf dest=/etc/init/logstash-forwarder.conf mode=0644
+  when: ansible_architecture != "ppc64le"
 
 - name: custom cert auth directory
   file: dest=/usr/local/share/ca-certificates state=directory mode=0755
@@ -38,14 +41,17 @@
     - refresh cert auths
     - restart logstash-forwarder
   when: logging.forward.host and logging.forward.tls.enabled
+  when: ansible_architecture != "ppc64le"
 
 - name: logstash-forwarder config directory
   file: dest=/etc/logstash-forwarder.d state=directory mode=0755
+  when: ansible_architecture != "ppc64le"
 
 - name: configure logstash-forwarder forwarding
   template: src=etc/logstash-forwarder.d/main.conf dest=/etc/logstash-forwarder.d/main.conf mode=0644
   notify: restart logstash-forwarder
   when: logging.forward.host
+  when: ansible_architecture != "ppc64le"
 
 - meta: flush_handlers
 

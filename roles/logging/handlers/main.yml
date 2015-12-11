@@ -4,6 +4,7 @@
 
 - name: restart logstash-forwarder
   service: name=logstash-forwarder state=restarted
+  when: ansible_architecture != "ppc64le"
 
 - name: restart rsyslog
   service: name=rsyslog state=restarted
