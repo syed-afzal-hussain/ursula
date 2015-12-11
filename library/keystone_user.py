@@ -118,7 +118,8 @@ def authenticate(endpoint, token, login_user, login_password, login_tenant_name)
         return client.Client(endpoint=endpoint, token=token)
     else:
         return client.Client(auth_url=endpoint, username=login_user,
-                             password=login_password, tenant_name=login_tenant_name)
+                             password=login_password, tenant_name=login_tenant_name,
+                             cacert="/opt/stack/ssl/openstack.crt")
 
 
 def tenant_exists(keystone, tenant):
