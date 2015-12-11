@@ -1,3 +1,4 @@
 ---
 - name: restart sensu-client
   service: name=sensu-client state=restarted sleep=2
+  when: ansible_architecture != "ppc64le"
