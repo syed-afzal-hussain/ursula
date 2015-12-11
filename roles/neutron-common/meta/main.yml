@@ -1,6 +1,6 @@
 ---
 dependencies:
-  - role: endpoints 
+  - role: endpoints
   - role: apt-repos
     when: ansible_architecture != "ppc64le"
   - role: monitoring-common
