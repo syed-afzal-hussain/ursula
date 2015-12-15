@@ -2,4 +2,4 @@
 dependencies:
   - role: nova-common
   - role: docker
-    when: nova.compute_driver == "novadocker.virt.docker.DockerDriver"
+    when: nova.compute_driver == "novadocker.virt.docker.DockerDriver" and ansible_architecture != "ppc64le"
