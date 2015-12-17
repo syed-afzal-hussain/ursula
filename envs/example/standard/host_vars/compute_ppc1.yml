@@ -1,3 +1,7 @@
 ---
 nova:
   libvirt_type: kvm
+
+docker:
+  enabled: False
+

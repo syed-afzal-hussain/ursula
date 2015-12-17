@@ -13,7 +13,6 @@ dependencies:
     when: ansible_architecture != "ppc64le"
   - role: docker
     when: docker.enabled is defined and docker.enabled|bool
-    when: ansible_architecture != "ppc64le"
   - role: monitoring-common
     when: monitoring.enabled is not defined or monitoring.enabled|bool
   - role: logging-config
