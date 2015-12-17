@@ -46,6 +46,8 @@
 
 - name: permit access to rabbitMQ server
   ufw: rule=allow to_port={{ rabbitmq.port }} proto=tcp
+       from_ip='{{ hostvars[item][primary_interface]["ipv4"]["address"] }}'
+  with_items: groups["compute"]
 
 - include: monitoring.yml tags=monitoring,common
   when: monitoring.enabled|default('True')|bool
