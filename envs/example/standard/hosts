@@ -20,12 +20,15 @@ controller2
 
 [db_arbiter]
 compute1
+compute_ppc1
 
 [mongo_arbiter]
 compute1
+compute_ppc1
 
 [compute]
 compute1
+compute_ppc1
 
 [ceph_monitors]
 # when expanding cluster, place new hosts BELOW existing hosts

@@ -79,6 +79,10 @@
               line="allow_incoming_qemukvm = 1"
   notify: restart libvirt-bin
 
+- name: Installing cpu-checker for kvm
+  apt: pkg=cpu-checker
+  when: "'{{ nova.libvirt_type }}' == 'kvm'"
+
 - name: ensure kvm is supported by cpu and enabled in bios
   command: kvm-ok
   when: "'{{ nova.libvirt_type }}' == 'kvm'"
